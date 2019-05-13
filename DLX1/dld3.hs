@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-import Data.Array.Unboxed (UArray, (!))
 import Control.Monad.ST.Lazy
 import Control.Monad (replicateM, forM_, when)
 import Data.List
@@ -20,6 +18,11 @@ import Formatting
 import Formatting.Clock
 import System.Clock
 --}
+{-# INLINE hide #-}
+{-# INLINE unhide #-}
+{-# INLINE cover #-}
+{-# INLINE uncover #-}
+
 
 
 
@@ -184,7 +187,6 @@ hide p q nods cols = do
 				     setAttr' numNodes cc (c-1)
 				     hide p (q+1) nods cols
 	else return [()]
- 
 
 
 
@@ -214,6 +216,7 @@ cover it nods cols  =
 
 		--end <-unsafeIOToST getCurrentTime
 		--unsafeIOToST (myTrace ("\nuncover time  "++show z))
+
 
 coverLoop it iit nodes items = do 
 	if(it/=iit) then do 

@@ -13,7 +13,10 @@ import Control.Monad.Loops-- (whileM)
 --import Control.Monad.ST.Unsafe
 import Control.Monad.ST.Lazy.Unsafe (unsafeIOToST)
 
-
+{-# INLINE cover #-}
+{-# INLINE uncover #-}
+{-# INLINE hide #-}
+{-# INLINE unhide #-}
 data Node s = Node { up, down,itm :: STRef s  Int} |Null 
 
 data Item  s = Item { prev, next,numNodes :: STRef s Int,
@@ -22,15 +25,7 @@ data Item  s = Item { prev, next,numNodes :: STRef s Int,
 instance Eq (Node s) where
 	a==b = (up a == up b) && (down a == down b)&&(itm a == itm b)
 
- {-
-instance Show (Node s ) where
-	showsPrec i (Node {up=u,down=d,itm=t} ) s = show  u ++""
-		where (u,d,t) = unsafePerformIO $ do 
-			u<-stToIO $ readSTRef u
-			d<- stToIO $ readSTRef d 
-			t<-stToIO $ readSTRef t
-			return(u,d,t)
--}
+
 
 nods = newArray (0,30) Null :: ST s (STArray s Int (Node s))
 itms = newArray (0,10) Nill :: ST s (STArray s Int (Item s))
@@ -44,87 +39,7 @@ addItem:: Int -> Int -> Int -> String->STArray s Int (Item s)->Int->ST s ()
 addItem pr nx sm nm col pos = do 
 	it <- newItem pr nx sm nm 
 	writeArray col pos it 
-{--
-test = do 
-	pp<-stToIO $ nods
-	its <-stToIO $ itms
 
-	stToIO $ addItem 7 1 0 "0" its 0
-	stToIO $ addItem 0 2 2 "a" its 1
-	stToIO $ addItem 1 3 2 "b" its 2
-	stToIO $ addItem 2 4 2 "c" its 3
-	stToIO $ addItem 3 5 3 "d" its 4
-	stToIO $ addItem 4 6 2 "e" its 5
-	stToIO $ addItem 5 7 2 "f" its 6
-	stToIO $ addItem 6 0 3 "g" its 7
-
-	stToIO $ addNode 0 0 0 pp 0
-	stToIO $ addNode 20 12 1  pp 1
-	stToIO $ addNode 24 16  2 pp 2
-	stToIO $ addNode 17 9 3 pp 3
-	stToIO $ addNode 27 13 4 pp 4
-	stToIO $ addNode 28 10 5 pp 5
-	stToIO $ addNode 22 18 6 pp 6
-	stToIO $ addNode 29 14 7 pp 7
-	stToIO $ addNode 0 10 0 pp 8
-	stToIO $ addNode 3 17 3 pp 9
-	stToIO $ addNode 5 28 5 pp 10
-	stToIO $ addNode 9 14 (-1) pp 11
-	stToIO $ addNode 1 20 1 pp 12 
-	stToIO $ addNode 4 21 4 pp 13
-	stToIO $ addNode 7 25 7 pp 14
-	stToIO $ addNode 12 18 (-2) pp 15
-	stToIO $ addNode 2 24 2 pp 16
-	stToIO $ addNode 9 3 3 pp 17
-	stToIO $ addNode 6 22 6 pp 18
-	stToIO $ addNode 16 22 (-3) pp 19
-	stToIO $ addNode 12 1 1 pp 20
-	stToIO $ addNode 13 27 4 pp 21
-	stToIO $ addNode  18 6 6 pp 22
-	stToIO $ addNode 20 25 (-4) pp 23
-	stToIO $ addNode 16 2 2 pp 24
-	stToIO $ addNode 14 29 7 pp 25
-	stToIO $ addNode 24 29 (-5) pp 26
-	stToIO $ addNode 21 4 4 pp 27
-	stToIO $ addNode 10 5 5 pp 28
-	stToIO $ addNode 25 7 7 pp 29
-	stToIO $ addNode 27 0 (-6) pp 30
-
-	nList<-stToIO $ readNodes pp
-	iList <- stToIO$ readItems its 
-
-	putStrLn ("All nodes = " ++ show nList)
-	putStrLn ("All items = " ++ show iList)
-
-	stToIO$ cover 4  pp its 
-	putStrLn(" \n")
-
-	nList2<-stToIO $ readNodes pp
-	iList2 <- stToIO$ readItems its  
-
-	putStrLn ("All nodes = " ++ show nList2)
-	putStrLn ("All items = " ++ show iList2)
-
-	stToIO$ uncover 4 pp its
-	putStrLn ("\n")
-
-	nList3<-stToIO $ readNodes pp
-	iList3 <- stToIO$ readItems its
-
-	 
-
-
-	
-
-	putStrLn ("All nodes = " ++ show nList3)
-	putStrLn ("All items = " ++ show iList3)
-
-	it <- stToIO $ choseIt its
-	putStrLn ("best " ++ show it)
-
-	q<- stToIO $ findPosition "f" its 
-	putStrLn ("position "++show q)
---}
 
 findPosition :: String -> STArray s Int (Item s )->ST s Int
 findPosition nm cols = do 
@@ -451,52 +366,6 @@ choseIt cols =
 		--traceShowM bst
 		return  bst
 
-initialize = do 
-	pp<- newArray (0,30) Null :: ST s (STArray s Int (Node s))
-	its <- newArray (0,30) Nill :: ST s (STArray s Int (Item s))
-
-	addItem 7 1 0 "0" its 0
-	addItem 0 2 2 "a" its 1
-	addItem 1 3 2 "b" its 2
-	addItem 2 4 2 "c" its 3
-	addItem 3 5 3 "d" its 4
-	addItem 4 6 2 "e" its 5
-	addItem 5 7 2 "f" its 6
-	addItem 6 0 3 "g" its 7
-
-	addNode 0 0 0 pp 0
-	addNode 20 12 1  pp 1
-	addNode 24 16  2 pp 2
-	addNode 17 9 3 pp 3
-	addNode 27 13 4 pp 4
-	addNode 28 10 5 pp 5
-	addNode 22 18 6 pp 6
-	addNode 29 14 7 pp 7
-	addNode 0 10 0 pp 8
-	addNode 3 17 3 pp 9
-	addNode 5 28 5 pp 10
-	addNode 9 14 (-1) pp 11
-	addNode 1 20 1 pp 12 
-	addNode 4 21 4 pp 13
-	addNode 7 25 7 pp 14
-	addNode 12 18 (-2) pp 15
-	addNode 2 24 2 pp 16
-	addNode 9 3 3 pp 17
-	addNode 6 22 6 pp 18
-	addNode 16 22 (-3) pp 19
-	addNode 12 1 1 pp 20
-	addNode 13 27 4 pp 21
-	addNode  18 6 6 pp 22
-	addNode 20 25 (-4) pp 23
-	addNode 16 2 2 pp 24
-	addNode 14 29 7 pp 25
-	addNode 24 29 (-5) pp 26
-	addNode 21 4 4 pp 27
-	addNode 10 5 5 pp 28
-	addNode 25 7 7 pp 29
-	addNode 27 0 (-6) pp 30
-
-	return (pp,its)
 
 
 trying = do 
@@ -527,7 +396,7 @@ algorithmD = do
 	ans <- newArray (0,30) 0::ST s (STArray s Int Int)
 	let rr =unsafePerformIO trying-------------------------------------------------------------------------------------- 
 
-	(nodes,items)<- yoyo rr--[["a","b","c","d","e","f","g"],["c","e"],["a","d","g"],["b","c","f"],["a","d","f"],["b","g"],["d","e","g"]] 
+	(nodes,items)<- initialize rr--[["a","b","c","d","e","f","g"],["c","e"],["a","d","g"],["b","c","f"],["a","d","f"],["b","g"],["d","e","g"]] 
 	
 	--(a,b )<- yoyo  rr
 	--traceShowM " initialize done" 
@@ -558,8 +427,8 @@ algorithmD = do
 					--unsafeIOToST (myTrace "\n got an answer \n go to d8")
 					modifySTRef count (+1)
 					writeSTRef isD8 True
-					anss <- readSTRef count
-					traceShowM anss
+					--anss <- readSTRef count
+					--traceShowM anss
 					--writeSTRef status False
 					--writeSTRef isD2 False
 				else do
@@ -672,8 +541,8 @@ algorithmD = do
 				if(ll==0) then do 
 					--traceShowM " finished with "
 					c <- readSTRef count
-					traceShowM c
-					traceShowM " solutions"
+					--traceShowM c
+					--traceShowM " solutions"
 					unsafeIOToST (myTrace (" \nfinished with "++show c ++" solutions"))
 					writeSTRef status False
 				else do 
@@ -693,7 +562,7 @@ main = do
 	putStrLn" done "
 
 --yoyo ::[[a]]->(STArray s Int (Node s),STArray s Int (Item s))
-yoyo arr =  do 
+initialize arr =  do 
 	unsafeIOToST ( myTrace " initialize start")
 	--traceShowM " initialize done "
 	nds <-  newArray (0,50000) Null::ST s (STArray s Int (Node s))
@@ -791,12 +660,7 @@ yoyo arr =  do
 
 	return (nds,its)
 
-testYoyo = do 
-	(nds,its)<-stToIO$ yoyo [["a","b","c","d","e","f","g"],["c","e"],["a","d","g"],["b","c","f"],["a","d","f"],["b","g"],["d","e","g"]]
-	nList<-stToIO $ readNodes nds
-	--iList <- stToIO$ readItems its 
-	putStrLn ("All nodes = ")-- ++ show nList)
-	putStrLn ("All items = ")-- ++ show iList)
+
 
 printAns :: STArray s Int Int->ST s [Int]
 printAns nodes = do 
@@ -815,53 +679,3 @@ myTrace ss  = do
 	appendFile file ss
 
 
-{--
-another = do 
-	traceShowM " input file "
-	i <- newSTRef 0 
-	let list= mains 
-	--skip first comments
-	p <- newSTRef 0 
-	whileM (do 
-		pp<- readSTRef p 
-			--traceShowM pp 
-		let x = words (list !! pp )
-			--traceShowM (x !!0 )
-		return ((x!!0)=="|")
-		)(do 
-			modifySTRef p (+1)
-		)
-	writeSTRef i 2 
-	--print l 
-
-mains = do  
-        let list = []
-        handle <- openFile "C:\\Users\\epan0\\Desktop\\test.txt" ReadMode
-        contents <- hGetContents handle
-        let singlewords = lines contents
-        return singlewords  	
-
-
-
-
---trying::[[Int]]->IO () "C:\\Users\\epan0\\Desktop\\test.txt"
-
-trying = do 
-	putStrLn " input the file addres: "
-	file <- getLine 
-	handle <- openFile file ReadMode
-
-	contents <- hGetContents handle
-	let list = lines contents
-	forM_(zip [0..(length list -1)] list)  $ \(i,xx)-> do 
-		print xx
-		forM_ ( zip [0..(length xx -1)] xx) $ \(j,k)-> do 
-			
-
-
-	hClose handle
---}
-
-
-f 1 =1
-f n = n*f(n-1)
