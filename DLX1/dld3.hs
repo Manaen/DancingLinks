@@ -7,7 +7,7 @@ import Data.Array.ST (STArray, newArray, readArray, writeArray,getBounds)
 import Data.Array.IArray (listArray)
 import System.IO
 import System.IO.Unsafe(unsafePerformIO)
-import Control.Monad.Loops (whileM)
+import Control.Monad.Loops (whileM,whileM_)
 import Control.Monad.IO.Class (liftIO)
 import Control.Monad.ST.Lazy.Unsafe (unsafeIOToST)
 {--
@@ -22,6 +22,11 @@ import System.Clock
 {-# INLINE unhide #-}
 {-# INLINE cover #-}
 {-# INLINE uncover #-}
+{-# INLINE uncoverLoop #-}
+{-# INLINE coverLoop #-}
+{-# INLINE d55 #-}
+{-# INLINE d66 #-}
+{-# INLINE choseIt#-}
 
 
 
@@ -58,7 +63,7 @@ findPosition nm cols = do
 	p <- getAttr' next curi
 	--traceShowM p
 	pos <- newSTRef p 
-	whileM(
+	whileM_(
 		do 
 			p <- readSTRef pos
 			c <- readArray cols p
@@ -307,7 +312,7 @@ choseIt cols =
 		best <-  newSTRef 100 
 		bestV <- newSTRef 100
 
-		whileM (
+		whileM_ (
 			do 
 				x <- readSTRef curi
 				return (x/=0)
@@ -353,14 +358,14 @@ trying = do
 
 
 
-yoyo arr = do 
+initialize arr = do 
 	unsafeIOToST ( myTrace " initialize start")
 	nds <-  newArray (0,50000) Null::ST s (STArray s Int (Node s))
 	its <-  newArray (0,50000) Nill::ST s (STArray s Int (Item s))
 
 	-- skip comments
 	p<- newSTRef 0 
-	whileM(
+	whileM_(
 		do 
 			pp <- readSTRef p 
 			return (((arr!!pp)!!0)=="|")
@@ -582,10 +587,10 @@ d8 count it xl nodes items l ans= do
 
 
 
-toto = do
+algorithmD = do
 	let y = unsafePerformIO trying
 	--s <- unsafeIOToST getSTime
-	(nodes,items)<- yoyo y 
+	(nodes,items)<- initialize y 
 	--unsafeIOToST (myTrace (show y))
 	--(nodes,items)<- initialize --yoyo [["a","b","c","d","e","f","g"],["c","e"],["a","d","g"],["b","c","f"],["a","d","f"],["b","g"],["d","e","g"]] 
 	l <- newSTRef 0 
@@ -605,7 +610,7 @@ toto = do
 	
 	
 
-main = do stToIO$ toto
+main = do stToIO$ algorithmD
 
 printAns :: STArray s Int Int->ST s [Int]
 printAns nodes = do 

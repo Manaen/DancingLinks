@@ -1,4 +1,3 @@
-import Data.Array.Unboxed (UArray, (!))
 import Control.Monad.ST.Lazy
 import Control.Monad (replicateM, forM_, when)
 import Data.List
@@ -8,10 +7,12 @@ import Data.Array.ST (STArray, newArray, readArray, writeArray,getBounds)
 import Data.Array.IArray (listArray)
 import System.IO
 import System.IO.Unsafe(unsafePerformIO)
-import Control.Monad.Loops (whileM)
+import Control.Monad.Loops (whileM,whileM_)
 import Control.Monad.IO.Class (liftIO)
 import Control.Monad.ST.Lazy.Unsafe (unsafeIOToST)
 
+--{-# INLINE findPosition #-}
+--{-# INLINE choseIt #-}
 
 data Node s = Node { up, down,itm :: STRef s  Int} |Null 
 
@@ -41,7 +42,7 @@ findPosition nm cols = do
 	p <- getAttr' next curi
 	--traceShowM p
 	pos <- newSTRef p 
-	whileM(
+	whileM_(
 		do 
 			p <- readSTRef pos
 			c <- readArray cols p
@@ -98,7 +99,7 @@ choseIt cols =
 		best <-  newSTRef 100 
 		bestV <- newSTRef 100
 
-		whileM (
+		whileM_ (
 			do 
 				x <- readSTRef curi
 				return (x/=0)
@@ -399,8 +400,8 @@ readFromFile = do
 
 initialize arr = do 
 	unsafeIOToST ( myTrace " initialize start")
-	nds <-  newArray (0,50000) Null::ST s (STArray s Int (Node s))
-	its <-  newArray (0,50000) Nill::ST s (STArray s Int (Item s))
+	nds <-  newArray (0,20000) Null::ST s (STArray s Int (Node s))
+	its <-  newArray (0,20000) Nill::ST s (STArray s Int (Item s))
 
 	-- skip comments
 	p<- newSTRef 0 
