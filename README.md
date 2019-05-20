@@ -5,4 +5,5 @@ dld3.hs relies on recursions to replace the use of iterations
 dld4.hs same as dld3.hs but reduces the number of access to memory by the algorithm  
   
 how to run the program:  
-when you run main, you are asked to input the file adress containing the test data, and voila! after the program finishes it prints the number of found solutions into a file named Output.txt
+when you run main, you are asked to input the file adress containing the test data, and voila! after the program finishes it prints the number of found solutions into a file named Output.txt  
+update the function myTrace match the place where you want the output datei to be found
