@@ -1,0 +1,106 @@
+	Mon May 13 14:28 2019 Time and Allocation Profiling Report  (Final)
+
+	   DLX1 +RTS -p -RTS
+
+	total time  =       72.15 secs   (72150 ticks @ 1000 us, 1 processor)
+	total alloc = 110,647,523,024 bytes  (excludes profiling overheads)
+
+COST CENTRE MODULE              SRC                                          %time %alloc
+
+whileM'     Control.Monad.Loops src\Control\Monad\Loops.hs:(102,1)-(110,33)   86.3   89.6
+getAttr     Main                DLX1.hs:161:1-39                               3.7    4.3
+setAttr     Main                DLX1.hs:164:1-40                               3.2    2.4
+getAttr'    Main                DLX1.hs:167:1-40                               1.3    1.3
+setAttr'    Main                DLX1.hs:170:1-41                               1.2    1.2
+up          Main                DLX1.hs:20:22-23                               1.2    0.0
+choseIt     Main                DLX1.hs:(331,1)-(367,27)                       1.1    1.0
+
+
+                                                                                                              individual      inherited
+COST CENTRE           MODULE                   SRC                                         no.     entries  %time %alloc   %time %alloc
+
+MAIN                  MAIN                     <built-in>                                   45          0    0.0    0.0   100.0  100.0
+ CAF                  GHC.IO.Encoding.CodePage <entire-module>                              75          0    0.0    0.0     0.0    0.0
+ CAF                  GHC.IO.Handle.Internals  <entire-module>                              72          0    0.0    0.0     0.0    0.0
+ CAF                  GHC.IO.FD                <entire-module>                              70          0    0.0    0.0     0.0    0.0
+ CAF                  GHC.IO.Encoding          <entire-module>                              69          0    0.0    0.0     0.0    0.0
+ CAF                  GHC.IO.Handle.Text       <entire-module>                              66          0    0.0    0.0     0.0    0.0
+ CAF                  GHC.IO.Handle.FD         <entire-module>                              65          0    0.0    0.0     0.0    0.0
+ CAF                  GHC.IO.Exception         <entire-module>                              58          0    0.0    0.0     0.0    0.0
+ CAF                  Main                     <entire-module>                              52          0    0.0    0.0     0.0    0.0
+  algorithmD          Main                     DLX1.hs:(385,1)-(556,17)                     92          1    0.0    0.0     0.0    0.0
+  main                Main                     DLX1.hs:(560,1)-(562,24)                     90          1    0.0    0.0     0.0    0.0
+  trying              Main                     DLX1.hs:(371,1)-(382,19)                    106          1    0.0    0.0     0.0    0.0
+ main                 Main                     DLX1.hs:(560,1)-(562,24)                     91          0    0.0    0.0   100.0  100.0
+  algorithmD          Main                     DLX1.hs:(385,1)-(556,17)                     93          0    0.0    0.0   100.0  100.0
+   whileM             Control.Monad.Loops      src\Control\Monad\Loops.hs:96:1-16           95    2398105    0.0    0.1    98.4   98.5
+    whileM'           Control.Monad.Loops      src\Control\Monad\Loops.hs:(102,1)-(110,33)  96    2398105   85.0   88.3    98.4   98.4
+     getAttr          Main                     DLX1.hs:161:1-39                            147   49406258    3.7    4.3     5.2    4.3
+      down            Main                     DLX1.hs:20:26-29                            152   16830755    0.2    0.0     0.2    0.0
+      up              Main                     DLX1.hs:20:22-23                            155   16811095    0.6    0.0     0.6    0.0
+      itm             Main                     DLX1.hs:20:31-33                            153   15764408    0.6    0.0     0.6    0.0
+     setAttr          Main                     DLX1.hs:164:1-40                            154   26771928    3.2    2.4     4.2    2.4
+      down            Main                     DLX1.hs:20:26-29                            156   13385964    0.4    0.0     0.4    0.0
+      up              Main                     DLX1.hs:20:22-23                            157   13385964    0.6    0.0     0.6    0.0
+     getAttr'         Main                     DLX1.hs:167:1-40                            144   13671035    1.2    1.2     1.5    1.2
+      numNodes        Main                     DLX1.hs:22:34-41                            158   13385964    0.3    0.0     0.3    0.0
+      next            Main                     DLX1.hs:22:29-32                            145     147451    0.0    0.0     0.0    0.0
+      prev            Main                     DLX1.hs:22:23-26                            161     137620    0.0    0.0     0.0    0.0
+     setAttr'         Main                     DLX1.hs:170:1-41                            146   13661204    1.2    1.2     1.4    1.2
+      numNodes        Main                     DLX1.hs:22:34-41                            159   13385964    0.1    0.0     0.1    0.0
+      next            Main                     DLX1.hs:22:29-32                            162     137620    0.0    0.0     0.0    0.0
+      prev            Main                     DLX1.hs:22:23-26                            163     137620    0.0    0.0     0.0    0.0
+     choseIt          Main                     DLX1.hs:(331,1)-(367,27)                    148       9830    1.1    1.0     1.2    1.1
+      getAttr'        Main                     DLX1.hs:167:1-40                            149     756506    0.1    0.1     0.1    0.1
+       next           Main                     DLX1.hs:22:29-32                            150     383168    0.0    0.0     0.0    0.0
+       numNodes       Main                     DLX1.hs:22:34-41                            151     373338    0.0    0.0     0.0    0.0
+     myTrace          Main                     DLX1.hs:(677,1)-(679,26)                    164          1    0.0    0.0     0.0    0.0
+      myTrace.file    Main                     DLX1.hs:678:13-93                           165          1    0.0    0.0     0.0    0.0
+   algorithmD.rr      Main                     DLX1.hs:397:13-38                           105          1    0.0    0.0     0.0    0.0
+    trying            Main                     DLX1.hs:(371,1)-(382,19)                    107          0    0.0    0.0     0.0    0.0
+     trying.alla      Main                     DLX1.hs:379:13-53                           108          1    0.0    0.0     0.0    0.0
+      trying.alla.\   Main                     DLX1.hs:379:30-44                           111       1500    0.0    0.0     0.0    0.0
+     trying.list      Main                     DLX1.hs:377:13-33                           110          1    0.0    0.0     0.0    0.0
+     trying.y         Main                     DLX1.hs:378:13-27                           109          1    0.0    0.0     0.0    0.0
+   initialize         Main                     DLX1.hs:(565,1)-(661,24)                     94          1    0.0    0.0     1.5    1.5
+    initialize.\      Main                     DLX1.hs:(612,60)-(648,39)                   121       1498    0.0    0.0     1.5    1.5
+     initialize.\.\   Main                     DLX1.hs:(623,63)-(644,50)                   123      10486    0.1    0.1     1.5    1.5
+      setAttr         Main                     DLX1.hs:164:1-40                            126      20972    0.0    0.0     0.0    0.0
+       down           Main                     DLX1.hs:20:26-29                            140      10486    0.0    0.0     0.0    0.0
+       up             Main                     DLX1.hs:20:22-23                            139      10486    0.0    0.0     0.0    0.0
+      findPosition    Main                     DLX1.hs:(45,1)-(67,16)                      129      10486    0.0    0.0     1.4    1.4
+       getAttr'       Main                     DLX1.hs:167:1-40                            132      10486    0.0    0.0     0.0    0.0
+        next          Main                     DLX1.hs:22:29-32                            134      10486    0.0    0.0     0.0    0.0
+       whileM         Control.Monad.Loops      src\Control\Monad\Loops.hs:96:1-16          130      10486    0.0    0.0     1.4    1.4
+        whileM'       Control.Monad.Loops      src\Control\Monad\Loops.hs:(102,1)-(110,33) 131      10486    1.3    1.3     1.4    1.4
+         getAttr'     Main                     DLX1.hs:167:1-40                            135     901662    0.1    0.1     0.1    0.1
+          name        Main                     DLX1.hs:23:22-25                            136     456074    0.0    0.0     0.0    0.0
+          next        Main                     DLX1.hs:22:29-32                            137     445588    0.0    0.0     0.0    0.0
+      getAttr         Main                     DLX1.hs:161:1-39                            128      10486    0.0    0.0     0.0    0.0
+       up             Main                     DLX1.hs:20:22-23                            138      10486    0.0    0.0     0.0    0.0
+      getAttr'        Main                     DLX1.hs:167:1-40                            125      10486    0.0    0.0     0.0    0.0
+       numNodes       Main                     DLX1.hs:22:34-41                            141      10486    0.0    0.0     0.0    0.0
+      newNode         Main                     DLX1.hs:(143,1)-(148,41)                    127      10486    0.0    0.0     0.0    0.0
+      setAttr'        Main                     DLX1.hs:170:1-41                            124      10486    0.0    0.0     0.0    0.0
+       numNodes       Main                     DLX1.hs:22:34-41                            142      10486    0.0    0.0     0.0    0.0
+     newNode          Main                     DLX1.hs:(143,1)-(148,41)                    133       1498    0.0    0.0     0.0    0.0
+     setAttr          Main                     DLX1.hs:164:1-40                            122       1498    0.0    0.0     0.0    0.0
+      down            Main                     DLX1.hs:20:26-29                            143       1498    0.0    0.0     0.0    0.0
+     initialize.\.ssU Main                     DLX1.hs:616:21-33                           160       1497    0.0    0.0     0.0    0.0
+    initialize.\      Main                     DLX1.hs:(589,54)-(603,30)                   112         84    0.0    0.0     0.0    0.0
+     setAttr'         Main                     DLX1.hs:170:1-41                            113        168    0.0    0.0     0.0    0.0
+      next            Main                     DLX1.hs:22:29-32                            119         84    0.0    0.0     0.0    0.0
+      prev            Main                     DLX1.hs:22:23-26                            120         84    0.0    0.0     0.0    0.0
+     getAttr'         Main                     DLX1.hs:167:1-40                            116         84    0.0    0.0     0.0    0.0
+      prev            Main                     DLX1.hs:22:23-26                            118         84    0.0    0.0     0.0    0.0
+     newItem          Main                     DLX1.hs:(151,1)-(157,45)                    115         84    0.0    0.0     0.0    0.0
+     newNode          Main                     DLX1.hs:(143,1)-(148,41)                    114         84    0.0    0.0     0.0    0.0
+    newNode           Main                     DLX1.hs:(143,1)-(148,41)                     97          2    0.0    0.0     0.0    0.0
+    initialize.(...)  Main                     DLX1.hs:608:13-40                            99          1    0.0    0.0     0.0    0.0
+    initialize.arrr   Main                     DLX1.hs:608:13-40                            98          1    0.0    0.0     0.0    0.0
+    initialize.x      Main                     DLX1.hs:581:13-23                           100          1    0.0    0.0     0.0    0.0
+    myTrace           Main                     DLX1.hs:(677,1)-(679,26)                    103          1    0.0    0.0     0.0    0.0
+     myTrace.file     Main                     DLX1.hs:678:13-93                           104          1    0.0    0.0     0.0    0.0
+    newItem           Main                     DLX1.hs:(151,1)-(157,45)                    117          1    0.0    0.0     0.0    0.0
+    whileM            Control.Monad.Loops      src\Control\Monad\Loops.hs:96:1-16          101          1    0.0    0.0     0.0    0.0
+     whileM'          Control.Monad.Loops      src\Control\Monad\Loops.hs:(102,1)-(110,33) 102          1    0.0    0.0     0.0    0.0
